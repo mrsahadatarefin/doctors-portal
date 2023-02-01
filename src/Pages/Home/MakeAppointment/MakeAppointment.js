@@ -12,7 +12,7 @@ const MakeAppointment = () => {
      
       <div className="hero ">
         <div className="hero-content flex-col lg:flex-row">
-          <img src={doctor} alt="" className="hidden  md:block lg:block lg:w-1/2  rounded-lg shadow-md -mt-32"  />
+          <img src={doctor} alt="" className="hidden  md:block lg:block lg:w-1/2  rounded-lg  -mt-32 -mb-4"  />
           <div>
             <p className="font-xl font-bold text-primary  ">Appointment</p>
             <h1 className="text-4xl font-bold text-white">Make an appointment Today</h1>
