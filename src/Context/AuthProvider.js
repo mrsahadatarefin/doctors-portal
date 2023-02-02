@@ -6,10 +6,13 @@ const auth =getAuth(app)
 
 const AuthProvider = ( {children}) => {
     const [user,setUser]=useState(null)  
+   const [loading,setLoading]=useState(true)
     const createUser =(email,password)=>{
+        setLoading(true);
         return createUserWithEmailAndPassword(auth,email,password)
     };
 const singIn = (email,password)=>{
+    setLoading(true)
     return signInWithEmailAndPassword(auth,email,password)
 };
 const updateUser = ( userInfo)=>{
@@ -17,6 +20,7 @@ const updateUser = ( userInfo)=>{
 }
 
 const logout = ()=>{
+    setLoading(true);
     return signOut(auth);
 }
 
@@ -26,6 +30,7 @@ useEffect(()=>{
    const unsubscribe =  onAuthStateChanged(auth,currentUser=>{
         console.log("user observing")
         setUser(currentUser)
+        setLoading(false)
     });
     return()=>unsubscribe()
 
@@ -38,7 +43,8 @@ useEffect(()=>{
              singIn,
              logout,
              user,
-             updateUser
+             updateUser,
+             loading
              
             
 

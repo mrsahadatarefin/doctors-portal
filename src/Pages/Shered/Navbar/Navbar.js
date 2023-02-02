@@ -18,10 +18,15 @@ const Navbar = () => {
    <p>{user?.displayName}</p>
     {
       user?.uid?
-       <li onClick={handleLogOut}> <button onClick={handleLogOut} > Logout</button> </li>
+      <>
+      <li><Link to ='/dashboard'>Dashboard</Link> </li>
+      <li onClick={handleLogOut}> <button onClick={handleLogOut} > Logout</button> </li>
+      
+      </> 
+
       :
      <>
-        <li><Link to ='/dashboard'>Dashboard</Link> </li>
+        
       <li><Link to ='/login'>Login</Link> </li>
       <li><Link to ='/signUp'>Sign up</Link> </li>
 
