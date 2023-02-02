@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthProvider';
 
 const Signup = () => {
+  const [signupError,SetSingUpError]=useState('')
+  const {createUser, updateUser} = useContext( AuthContext)
     const {handleSubmit, register,formState:{errors}}= useForm()
     const handleSignUp = data =>{
         console.log(data)
+        SetSingUpError('')
+        createUser(data.email,data.password)
+        
+        .then(result =>{
+          const user = result.user;
+          toast('user created successfully')
+          console.log(user)
+          const userInfo = {
+            displayName:data.name
+          }
+          updateUser(userInfo)
+          .then(()=>{})
+          .catch(err =>console.log(err))
+          
+        })
+       .catch(err => {
+        
+        console.log(err)
+        SetSingUpError(err.message)
+      })
          } 
     return (
         <div className="h-[800px]  flex justify-center items-center">
@@ -15,6 +39,7 @@ const Signup = () => {
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Name</span>
+                <toast></toast>
               </label>
               <input
                {...register("name",{required:'*Name is required'})}
@@ -46,7 +71,9 @@ const Signup = () => {
             </div>
   
       
-            <input className="btn btn-accent w-full "value='sign up'  type="submit" />
+            <input className="btn btn-accent w-full mt-5 "value='sign up'  type="submit" />
+          { signupError&& <p className='text-red-600'>{signupError}</p>}
+          
           </form>
           <p>New to doctors portal <Link className="text-primary" to='/login'> Create new account</Link></p>
         
