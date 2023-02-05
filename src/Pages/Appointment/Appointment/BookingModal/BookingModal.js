@@ -1,10 +1,15 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { json } from "react-router-dom";
+import { AuthContext } from "../../../../Context/AuthProvider";
 
 const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
-  const { name, slots } = treatment;
+  const { name:treatmentName, slots } = treatment;
+  
   const data = format (selectedDate,'PP') 
- const handleBooking = event =>{
+ const {user} = useContext(AuthContext)
+  const handleBooking = event =>{
    
     event.preventDefault();
 
@@ -16,7 +21,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
     
  
     const booking = {
-       treatment:name,
+       treatment:treatmentName,
        
         AppointmentDate:data,
         patient:name,
@@ -28,7 +33,28 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
 
     }
     console.log(booking)
-    setTreatment(null)
+ fetch('http://localhost:5000/bookings',{
+   method:'POST',
+   headers:{
+    'Content-type':'application/json'
+   },
+   body:JSON.stringify(booking)
+ })
+ .then(res => res.json())
+ .then(data=>{
+  console.log(data)
+  setTreatment(null)
+  if(data.acknowledged){
+    toast.success('booking confirmed')
+  }
+  else{
+    toast.error('you already have a booking')
+  }
+  
+
+ })
+
+    
 }
   return (
     <>
@@ -41,7 +67,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">{name}</h3>
+          <h3 className="text-lg font-bold">{treatmentName}</h3>
           <form onSubmit={handleBooking} className="grid grid-cols-1 gap-3 mt-10">
             <input
               type="text"
@@ -65,13 +91,21 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
             name="name"
               type="text"
               placeholder="Your name"
+              
+              defaultValue={user?.displayName}
               className="input input-bordered w-full "
+              readOnly
             />
             <input
             name="email"
               type="text"
               placeholder="your email"
+              defaultValue={user.email}
+              
+              
               className="input input-bordered w-full "
+              readOnly
+
             />
             <input
             name="phone"

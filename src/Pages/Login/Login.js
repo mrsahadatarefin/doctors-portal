@@ -8,7 +8,7 @@ const {singIn,user}= useContext(AuthContext)
 const [loginError,setLoginError]=useState('')
 const location = useLocation()
 const navigate = useNavigate()
-const from = location.state.from?.pathname ||'/'
+// const from = location.state.from?.pathname || '/'
 const { handleSubmit, register,formState:{errors} } = useForm();
   ;
  const handleLogin = data =>{
@@ -18,7 +18,7 @@ console.log(data)
  .then( result =>{
   const user = result.user
   console.log(user)
-  navigate(from,{replace:true})
+  // navigate(from , {replace:true})
  })
  .catch(err =>{console.log(err.message);
   setLoginError(err.message)
