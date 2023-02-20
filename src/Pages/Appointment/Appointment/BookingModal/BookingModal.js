@@ -33,7 +33,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
 
     }
     console.log(booking)
- fetch('http://localhost:5000/bookings',{
+ fetch('https://doctors-portal-server-drab-zeta.vercel.app/bookings',{
    method:'POST',
    headers:{
     'Content-type':'application/json'

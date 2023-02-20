@@ -1,4 +1,4 @@
-import { useQueries } from '@tanstack/react-query';
+// import { useQueries } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import BookingModal from '../BookingModal/BookingModal';
@@ -18,11 +18,11 @@ const AvailableAppointments = ({selectedDate}) => {
 //     }
 // })
     useEffect(()=>{
-       fetch(`http://localhost:5000/appointmentOptions?data=${data}`)
+       fetch(`https://doctors-portal-server-drab-zeta.vercel.app/appointmentOptions?data=${data}`)
        .then(res => res.json())
        .then(data => setAppointments(data))
         
-    },[])
+    },[data])
     
     return (
         <section className='mt-16'>
